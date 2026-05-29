@@ -4,6 +4,7 @@ import { SectionWrapper } from "@/components/shared/SectionWrapper";
 
 interface Service {
   name: string;
+  image: string;
   description: string;
   price: string;
   duration: string;
@@ -14,6 +15,7 @@ interface Service {
 const services: Service[] = [
   {
     name: "Haarschnitt",
+    image: "/Bild1.jpeg",
     description: "Klassisch oder modern – präzise auf deine Gesichtsform abgestimmt.",
     price: "18 €",
     duration: "ca. 30 min",
@@ -22,6 +24,7 @@ const services: Service[] = [
   },
   {
     name: "Bartpflege",
+    image: "/Bild3.jpeg",
     description: "Konturierung, Rasur und Pflege für den perfekten Bartstyle.",
     price: "ab 10 €",
     duration: "ca. 20 min",
@@ -30,6 +33,7 @@ const services: Service[] = [
   },
   {
     name: "Clippers Paket",
+    image: "/Bild5.jpeg",
     description: "Haarschnitt, Bart & Waschen – das Rundum-sorglos-Paket.",
     price: "50 €",
     duration: "ca. 55 min",
@@ -52,7 +56,7 @@ export function ServiceTeaser() {
 
       {/* Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {services.map(({ name, description, price, duration, badge, href }) => (
+        {services.map(({ name, image, description, price, duration, badge, href }) => (
           <Link
             key={name}
             href={href}
@@ -61,6 +65,10 @@ export function ServiceTeaser() {
             {/* Top metallic accent bar */}
             <div className="h-[2px] bg-gradient-to-r from-transparent via-silver/40 to-transparent" aria-hidden="true" />
 
+            <div className="relative h-48 overflow-hidden">
+              <img src={image} alt={name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            </div>
+
             <div className="p-7 flex flex-col flex-1">
               {badge && (
                 <span className="self-start inline-flex items-center rounded-full bg-silver/12 border border-silver/25 px-2.5 py-0.5 text-[10px] font-bold text-silver font-heading tracking-widest uppercase mb-4">
@@ -68,7 +76,10 @@ export function ServiceTeaser() {
                 </span>
               )}
 
-              <h3 className="font-heading text-xl font-bold text-[#111111] mb-3 tracking-wide">{name}</h3>
+              <h3 className="font-heading text-xl font-bold text-[#111111] group-hover:text-[#00BFFF] mb-3 tracking-wide transition-colors duration-300 relative w-fit">
+                {name}
+                <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-[#00BFFF] group-hover:w-full transition-all duration-300" />
+              </h3>
               <p className="text-sm text-[#666666] leading-relaxed flex-1">{description}</p>
 
               <div className="flex items-end justify-between mt-7 pt-5 border-t border-border/60">
