@@ -28,8 +28,8 @@ export function Navbar() {
       className={cn(
         "sticky top-0 z-50 w-full border-b transition-all duration-300",
         scrolled
-          ? "bg-[#111111]/90 backdrop-blur-md border-white/8 shadow-xl shadow-black/30"
-          : "bg-[#111111] border-[#1A1A1A]"
+          ? "bg-[#111111]/60 backdrop-blur-md border-white/8 shadow-xl shadow-black/30"
+          : "bg-[#111111]/60 backdrop-blur-md border-white/8"
       )}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
