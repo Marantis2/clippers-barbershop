@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Scissors, Calendar } from "lucide-react";
 import { BookingButton } from "@/components/shared/BookingButton";
@@ -11,6 +13,7 @@ export interface TeamMember {
   accentHex: string;
   imageUrl?: string;
   booksyUrl?: string;
+  bio?: string;
 }
 
 export function TeamCard({
@@ -84,8 +87,11 @@ export function TeamCard({
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="mt-auto pt-4 border-t border-border/50">
+        {/* CTA — stopPropagation so parent card click doesn't also fire */}
+        <div
+          className="mt-auto pt-4 border-t border-border/50"
+          onClick={(e) => e.stopPropagation()}
+        >
           <BookingButton size="sm" label="Termin buchen" href={booksyUrl} className="w-full" />
         </div>
       </div>
