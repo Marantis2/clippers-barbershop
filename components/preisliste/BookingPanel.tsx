@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, CreditCard, Store, X } from "lucide-react";
+import { Check, CreditCard, Minus, Plus, Store, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BOOKSY_URL } from "@/lib/constants";
 
 export interface CartItem {
   name: string;
   price: string;
+  quantity: number;
 }
 
 interface BookingPanelProps {
@@ -15,6 +16,8 @@ interface BookingPanelProps {
   open: boolean;
   onClose: () => void;
   onRemove: (name: string) => void;
+  onIncrement: (name: string) => void;
+  onDecrement: (name: string) => void;
 }
 
 type PaymentMethod = "vor-ort" | "online" | null;
@@ -23,7 +26,7 @@ function parseEuro(price: string): number {
   return parseFloat(price.replace(/[^\d.,]/g, "").replace(",", ".")) || 0;
 }
 
-export function BookingPanel({ cart, open, onClose, onRemove }: BookingPanelProps) {
+export function BookingPanel({ cart, open, onClose, onRemove, onIncrement, onDecrement }: BookingPanelProps) {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -54,7 +57,8 @@ export function BookingPanel({ cart, open, onClose, onRemove }: BookingPanelProp
     return () => document.removeEventListener("keydown", handleKey);
   }, [open, onClose]);
 
-  const subtotal = cart.reduce((sum, item) => sum + parseEuro(item.price), 0);
+  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const subtotal = cart.reduce((sum, item) => sum + parseEuro(item.price) * item.quantity, 0);
 
   return (
     <>
@@ -84,9 +88,9 @@ export function BookingPanel({ cart, open, onClose, onRemove }: BookingPanelProp
             <h2 className="font-heading font-bold text-lg text-[#111111] tracking-[-0.01em]">
               Warenkorb
             </h2>
-            {cart.length > 0 && (
+            {totalQty > 0 && (
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#111111] text-white font-heading font-bold text-[10px] leading-none">
-                {cart.length}
+                {totalQty}
               </span>
             )}
           </div>
@@ -117,25 +121,52 @@ export function BookingPanel({ cart, open, onClose, onRemove }: BookingPanelProp
                   <div
                     key={item.name}
                     className={cn(
-                      "flex items-center justify-between gap-3 px-4 py-3 bg-white",
+                      "px-4 py-3 bg-white",
                       i < cart.length - 1 && "border-b border-[#F0F0F0]"
                     )}
                   >
-                    <span className="font-heading font-medium text-sm text-[#111111] flex-1 min-w-0 leading-snug">
-                      {item.name}
-                    </span>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className="font-heading font-bold text-sm text-[#111111] tabular-nums">
-                        {item.price}
+                    {/* Row 1: name + remove */}
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <span className="font-heading font-medium text-sm text-[#111111] flex-1 min-w-0 leading-snug">
+                        {item.name}
                       </span>
                       <button
                         type="button"
                         onClick={() => onRemove(item.name)}
                         aria-label={`${item.name} entfernen`}
-                        className="w-5 h-5 rounded-full flex items-center justify-center text-[#BBBBBB] hover:text-[#CC3333] hover:bg-red-50 transition-colors duration-150"
+                        className="w-5 h-5 rounded-full flex items-center justify-center text-[#BBBBBB] hover:text-[#CC3333] hover:bg-red-50 transition-colors duration-150 shrink-0"
                       >
                         <X className="w-3 h-3" />
                       </button>
+                    </div>
+                    {/* Row 2: qty controls + line total */}
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => { if (item.quantity > 1) onDecrement(item.name); }}
+                          disabled={item.quantity <= 1}
+                          aria-label="Menge verringern"
+                          className="w-6 h-6 rounded-md border border-[#E0E0E0] flex items-center justify-center text-[#666666] hover:border-[#999999] hover:text-[#111111] disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="w-7 text-center font-heading font-semibold text-sm text-[#111111] tabular-nums select-none">
+                          {item.quantity}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => onIncrement(item.name)}
+                          disabled={item.quantity >= 10}
+                          aria-label="Menge erhöhen"
+                          className="w-6 h-6 rounded-md border border-[#E0E0E0] flex items-center justify-center text-[#666666] hover:border-[#999999] hover:text-[#111111] disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+                      <span className="font-heading font-bold text-sm text-[#111111] tabular-nums">
+                        {(parseEuro(item.price) * item.quantity).toFixed(0)} €
+                      </span>
                     </div>
                   </div>
                 ))}

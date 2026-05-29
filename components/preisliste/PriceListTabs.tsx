@@ -31,10 +31,29 @@ export function PriceListTabs({ categories }: PriceListTabsProps) {
   }, [categories]);
 
   const handleAdd = (item: PriceEntry) => {
+    setCart((prev) => {
+      const existing = prev.find((c) => c.name === item.name);
+      if (existing) {
+        return prev.map((c) =>
+          c.name === item.name ? { ...c, quantity: Math.min(10, c.quantity + 1) } : c
+        );
+      }
+      return [...prev, { name: item.name, price: item.price, quantity: 1 }];
+    });
+  };
+
+  const handleDecrement = (name: string) => {
+    setCart((prev) => {
+      const item = prev.find((c) => c.name === name);
+      if (!item) return prev;
+      if (item.quantity <= 1) return prev.filter((c) => c.name !== name);
+      return prev.map((c) => c.name === name ? { ...c, quantity: c.quantity - 1 } : c);
+    });
+  };
+
+  const handleIncrement = (name: string) => {
     setCart((prev) =>
-      prev.some((c) => c.name === item.name)
-        ? prev
-        : [...prev, { name: item.name, price: item.price }]
+      prev.map((c) => c.name === name ? { ...c, quantity: Math.min(10, c.quantity + 1) } : c)
     );
   };
 
@@ -86,7 +105,7 @@ export function PriceListTabs({ categories }: PriceListTabsProps) {
                 items={items}
                 cart={cart}
                 onAdd={handleAdd}
-                onRemove={handleRemove}
+                onDecrement={handleDecrement}
               />
             </div>
           </div>
@@ -98,12 +117,12 @@ export function PriceListTabs({ categories }: PriceListTabsProps) {
         <button
           type="button"
           onClick={() => setPanelOpen(true)}
-          aria-label={`Warenkorb öffnen – ${cart.length} ${cart.length === 1 ? "Service" : "Services"} ausgewählt`}
+          aria-label={`Warenkorb öffnen – ${cart.reduce((s, c) => s + c.quantity, 0)} ausgewählt`}
           className="fixed bottom-6 right-6 z-[35] w-14 h-14 rounded-full bg-[#111111] text-white shadow-[0_4px_24px_rgba(0,0,0,0.30)] hover:bg-[#333333] transition-colors duration-200 flex items-center justify-center"
         >
           <ShoppingBag className="w-6 h-6" />
           <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 rounded-full bg-[#C9A84C] text-[#111111] text-[10px] font-heading font-bold flex items-center justify-center px-1 leading-none">
-            {cart.length}
+            {cart.reduce((s, c) => s + c.quantity, 0)}
           </span>
         </button>
       )}
@@ -113,6 +132,8 @@ export function PriceListTabs({ categories }: PriceListTabsProps) {
         open={panelOpen}
         onClose={handleClose}
         onRemove={handleRemove}
+        onIncrement={handleIncrement}
+        onDecrement={handleDecrement}
       />
     </>
   );

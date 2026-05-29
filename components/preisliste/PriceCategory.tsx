@@ -12,10 +12,10 @@ interface PriceCategoryProps {
   items: PriceEntry[];
   cart: CartItem[];
   onAdd: (item: PriceEntry) => void;
-  onRemove: (name: string) => void;
+  onDecrement: (name: string) => void;
 }
 
-export function PriceCategory({ title, items, cart, onAdd, onRemove }: PriceCategoryProps) {
+export function PriceCategory({ title, items, cart, onAdd, onDecrement }: PriceCategoryProps) {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
@@ -23,15 +23,19 @@ export function PriceCategory({ title, items, cart, onAdd, onRemove }: PriceCate
         <h3 className="font-heading text-xl font-bold text-primary-white">{title}</h3>
       </div>
       <div>
-        {items.map((item) => (
-          <PriceItem
-            key={item.name}
-            {...item}
-            inCart={cart.some((c) => c.name === item.name)}
-            onAdd={() => onAdd(item)}
-            onRemove={() => onRemove(item.name)}
-          />
-        ))}
+        {items.map((item) => {
+          const cartItem = cart.find((c) => c.name === item.name);
+          return (
+            <PriceItem
+              key={item.name}
+              {...item}
+              inCart={!!cartItem}
+              quantity={cartItem?.quantity ?? 0}
+              onAdd={() => onAdd(item)}
+              onDecrement={() => onDecrement(item.name)}
+            />
+          );
+        })}
       </div>
     </div>
   );
