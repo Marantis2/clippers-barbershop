@@ -58,28 +58,28 @@ export function HeroSection() {
       <div className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
 
         {/* Eyebrow */}
-        <div className="inline-flex items-center gap-3 mb-7">
+        <div className="inline-flex items-center gap-3 mb-7" style={{ animation: 'fadeSlideUp 0.7s ease forwards', opacity: 0, animationDelay: '0s' }}>
           <span className="hidden sm:block w-8 h-px bg-white/40" />
           <p className="font-heading text-white/75 uppercase tracking-[0.3em] text-xs font-semibold">Barbershop · Frankfurt am Main</p>
           <span className="hidden sm:block w-8 h-px bg-white/40" />
         </div>
 
         {/* Main heading */}
-        <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-bold text-white leading-[1.03] tracking-[-0.02em] mb-6">
+        <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-bold text-white leading-[1.03] tracking-[-0.02em] mb-6" style={{ animation: 'fadeSlideUp 0.7s ease forwards', opacity: 0, animationDelay: '0.2s' }}>
           Dein Style.
           <br />
           <span className="text-white/90">Unser Handwerk.</span>
         </h1>
 
         {/* Subheading */}
-        <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-xl mx-auto mb-10 leading-relaxed font-light">
+        <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-xl mx-auto mb-10 leading-relaxed font-light" style={{ animation: 'fadeSlideUp 0.7s ease forwards', opacity: 0, animationDelay: '0.4s' }}>
           Erstklassige Haarschnitte und Bartpflege in Frankfurt.{" "}
           <br className="hidden sm:block" />
           Jetzt online buchen – schnell, einfach, zuverlässig.
         </p>
 
         {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center" style={{ animation: 'fadeSlideUp 0.7s ease forwards', opacity: 0, animationDelay: '0.6s' }}>
           <BookingButton size="lg" label="Jetzt Termin buchen" />
           <Link
             href="/preisliste"
@@ -90,7 +90,7 @@ export function HeroSection() {
         </div>
 
         {/* Trust / stats strip */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-10 mt-14 pt-10 border-t border-white/20">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-10 mt-14 pt-10 border-t border-white/20" style={{ animation: 'fadeSlideRight 0.7s ease forwards', opacity: 0, animationDelay: '0.8s' }}>
           <div className="flex items-center gap-1.5">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star key={i} className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" aria-hidden="true" />

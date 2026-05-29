@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
 import { Star } from "lucide-react";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { RATING } from "@/lib/constants";
@@ -45,6 +48,26 @@ function StarRow({ count = 5 }: { count?: number }) {
 }
 
 export function TestimonialsSection() {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          const dirs = ['fadeFromLeft', 'fadeFromRight', 'fadeFromTop'];
+          gridRef.current?.querySelectorAll('.review-card').forEach((el, i) => {
+            const dir = dirs[Math.floor(Math.random() * dirs.length)];
+            (el as HTMLElement).style.animation = `${dir} 1.1s ease forwards ${i * 0.45}s`;
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    if (gridRef.current) observer.observe(gridRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <SectionWrapper className="bg-bg-base">
       {/* Heading + aggregate rating */}
@@ -67,11 +90,12 @@ export function TestimonialsSection() {
       </div>
 
       {/* Review cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {testimonials.map(({ text, author }) => (
           <figure
             key={author}
-            className="group relative bg-bg-card border border-border rounded-xl p-7 flex flex-col gap-5 card-glow hover:border-silver/30 overflow-hidden"
+            className="review-card group relative bg-bg-card border border-border rounded-xl p-7 flex flex-col gap-5 card-glow hover:border-silver/30 overflow-hidden"
+            style={{ opacity: 0 }}
           >
             {/* Subtle top-right glow on hover */}
             <div

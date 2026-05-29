@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Dialog,
@@ -53,6 +53,7 @@ const CATEGORY_LABEL: Record<Exclude<FilterCategory, "alle">, string> = {
 export function GalleryClient() {
   const [activeFilter, setActiveFilter] = useState<FilterCategory>("alle");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const filtered = activeFilter === "alle" ? ITEMS : ITEMS.filter((i) => i.category === activeFilter);
   const currentItem = lightboxIndex !== null ? filtered[lightboxIndex] : null;
@@ -69,6 +70,22 @@ export function GalleryClient() {
     setActiveFilter(value);
     setLightboxIndex(null);
   }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          gridRef.current?.querySelectorAll('.gallery-card').forEach((el, i) => {
+            (el as HTMLElement).style.animation = `fadeSlideUp 1s ease forwards ${i * 0.12}s`;
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (gridRef.current) observer.observe(gridRef.current);
+    return () => observer.disconnect();
+  }, [activeFilter]);
 
   useEffect(() => {
     if (lightboxIndex === null) return;
@@ -102,14 +119,15 @@ export function GalleryClient() {
       </div>
 
       {/* Masonry grid */}
-      <div className="columns-2 md:columns-3 gap-3">
+      <div ref={gridRef} className="columns-2 md:columns-3 gap-3">
         {filtered.map((item, index) => (
           <button
             key={item.id}
             onClick={() => setLightboxIndex(index)}
             aria-label={`${item.label} vergrößern`}
+            style={{ opacity: 0 }}
             className={cn(
-              "mb-3 break-inside-avoid rounded-xl overflow-hidden w-full relative group border border-border transition-all duration-300 hover:border-silver/40",
+              "gallery-card mb-3 break-inside-avoid rounded-xl overflow-hidden w-full relative group border border-border transition-all duration-300 hover:border-silver/40",
               item.heightClass
             )}
           >

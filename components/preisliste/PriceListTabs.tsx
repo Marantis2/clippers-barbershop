@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PriceCategory } from "./PriceCategory";
@@ -22,6 +22,23 @@ export function PriceListTabs({ categories }: PriceListTabsProps) {
   const [active, setActive] = useState(categories[0]?.value ?? "");
   const [cart, setCart] = useState<CartItem[]>([]);
   const [panelOpen, setPanelOpen] = useState(false);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          listRef.current?.querySelectorAll(`#panel-${active} .price-row`).forEach((el, i) => {
+            (el as HTMLElement).style.animation = `fadeSlideUp 0.6s ease forwards ${i * 0.08}s`;
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (listRef.current) observer.observe(listRef.current);
+    return () => observer.disconnect();
+  }, [active]);
 
   useEffect(() => {
     const hash = window.location.hash.slice(1);
@@ -65,7 +82,7 @@ export function PriceListTabs({ categories }: PriceListTabsProps) {
 
   return (
     <>
-      <div>
+      <div ref={listRef}>
         {/* Tab buttons */}
         <div className="flex flex-wrap justify-center gap-2 mb-10" role="tablist" aria-label="Preiskategorien">
           {categories.map(({ value, label }) => (

@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
@@ -43,6 +46,24 @@ const services: Service[] = [
 ];
 
 export function ServiceTeaser() {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          gridRef.current?.querySelectorAll('.service-card').forEach((el, i) => {
+            (el as HTMLElement).style.animation = `fadeSlideUp 1s ease forwards ${i * 0.45}s`;
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    if (gridRef.current) observer.observe(gridRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <SectionWrapper className="bg-bg-base">
       {/* Heading */}
@@ -55,12 +76,13 @@ export function ServiceTeaser() {
       </div>
 
       {/* Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {services.map(({ name, image, description, price, duration, badge, href }) => (
           <Link
             key={name}
             href={href}
-            className="relative group bg-bg-card rounded-xl border border-border flex flex-col overflow-hidden card-glow hover:border-silver/35"
+            className="service-card relative group bg-bg-card rounded-xl border border-border flex flex-col overflow-hidden card-glow hover:border-silver/35"
+            style={{ opacity: 0 }}
           >
             {/* Top metallic accent bar */}
             <div className="h-[2px] bg-gradient-to-r from-transparent via-silver/40 to-transparent" aria-hidden="true" />
@@ -99,13 +121,20 @@ export function ServiceTeaser() {
         ))}
       </div>
 
-      {/* CTA link */}
-      <div className="text-center mt-12">
+      {/* CTA links */}
+      <div className="text-center mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
         <Link
           href="/preisliste"
           className="inline-flex items-center gap-2 font-heading font-semibold text-sm text-[#666666] hover:text-[#111111] transition-colors duration-200 group tracking-wide"
         >
           Alle Preise ansehen
+          <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
+        </Link>
+        <Link
+          href="/galerie"
+          className="inline-flex items-center gap-2 font-heading font-semibold text-sm text-[#666666] hover:text-[#111111] transition-colors duration-200 group tracking-wide"
+        >
+          Galerie ansehen
           <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
         </Link>
       </div>

@@ -12,7 +12,7 @@ interface PriceItemProps {
 
 export function PriceItem({ name, description, price, inCart, quantity, onAdd, onDecrement }: PriceItemProps) {
   return (
-    <div className="flex items-center justify-between gap-4 py-4 border-b border-border last:border-0 group">
+    <div className="price-row flex items-center justify-between gap-4 py-4 border-b border-border last:border-0 group" style={{ opacity: 0 }}>
       <div className="flex-1 min-w-0">
         <p className="font-heading font-semibold text-primary-white text-sm group-hover:text-[#111111] transition-colors">
           {name}

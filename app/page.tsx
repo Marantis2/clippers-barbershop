@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { HeroSection } from "@/components/home/HeroSection";
 import { ServiceTeaser } from "@/components/home/ServiceTeaser";
 import { TeamTeaser } from "@/components/home/TeamTeaser";
-import { GalleryTeaser } from "@/components/home/GalleryTeaser";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { BookingBanner } from "@/components/shared/BookingBanner";
 import { KontaktKurzinfo } from "@/components/home/KontaktKurzinfo";
@@ -25,7 +24,6 @@ export default function Home() {
       <HeroSection />
       <ServiceTeaser />
       <TeamTeaser />
-      <GalleryTeaser />
       <TestimonialsSection />
       <BookingBanner />
       <KontaktKurzinfo />

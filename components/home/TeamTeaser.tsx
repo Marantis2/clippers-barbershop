@@ -75,7 +75,7 @@ export function TeamTeaser() {
                 }
               }}
               aria-label={`Mehr über ${member.name} erfahren`}
-              className="group bg-bg-card border border-border rounded-xl overflow-hidden card-glow hover:border-silver/35 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#999999]"
+              className="group bg-bg-card border border-transparent rounded-xl overflow-hidden card-glow hover:border-[#00BFFF] hover:shadow-[0_0_0_3px_#00BFFF] transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#999999]"
             >
               {/* Portrait photo */}
               <div className="h-64 relative overflow-hidden">

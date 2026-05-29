@@ -7,8 +7,8 @@
 /* ── Light palette ────────────────────────────────────────────────────────── */
 @theme {
   /* Semantic tokens */
-  --color-bg-base:     #F8F9FA;
-  --color-bg-surface:  #F8F9FA;
+  --color-bg-base:     #F2F5F9;
+  --color-bg-surface:  #F2F5F9;
   --color-bg-card:     #FFFFFF;
   --color-silver:      #666666;
   --color-silver-dim:  #888888;
@@ -83,7 +83,7 @@
 
 /* All shadcn design tokens — light palette */
 :root {
-  --background: #F8F9FA;
+  --background: #F2F5F9;
   --foreground: #111111;
   --card: #FFFFFF;
   --card-foreground: #111111;
@@ -130,6 +130,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    background-image: linear-gradient(180deg, rgba(0,191,255,0.03) 0%, rgba(0,191,255,0) 60%);
   }
 
   /* Tighter, more premium heading rendering */
@@ -204,7 +205,7 @@
   /* Thin divider line */
   .divider-metallic {
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.10) 50%, transparent);
+    background: linear-gradient(to right, transparent, rgba(0, 191, 255, 0.30) 50%, transparent);
   }
 
   /* Card subtle shadow + lift on hover */
@@ -248,7 +249,42 @@
 
   /* Eyebrow label — consistent across all sections */
   .eyebrow {
-    @apply font-heading text-silver uppercase tracking-[0.3em] text-xs font-semibold;
+    @apply font-heading uppercase tracking-[0.3em] text-xs font-semibold;
+    color: #00BFFF;
+  }
+
+  @keyframes hairFall {
+    0%   { opacity: 1; transform: rotate(var(--r, 45deg)) translateY(0) translateX(0); }
+    100% { opacity: 0; transform: rotate(var(--r, 45deg)) translateY(60px) translateX(var(--d, 20px)); }
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeSlideRight {
+    from { opacity: 0; transform: translateX(-32px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes fadeFromLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeFromRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeFromTop {
+    from { opacity: 0; transform: translateY(-40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Barber pole Y-axis flip for navbar emoji */
+  @keyframes barberSpin {
+    0%   { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
   }
 
   /* Animated barber pole — pill shape, red/white/blue diagonal stripes scrolling upward */
@@ -267,3 +303,5 @@
       0 0 0 1px rgba(255, 255, 255, 0.08);
   }
 }
+
+* { cursor: none !important; }
