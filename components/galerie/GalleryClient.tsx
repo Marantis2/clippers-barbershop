@@ -20,7 +20,7 @@ interface GalleryItem {
   imageUrl: string;
 }
 
-const LOCAL_IMAGES = ["/Bild1.jpeg", "/Bild2.jpeg", "/Bild3.jpeg", "/Bild4.jpeg", "/Bild5.jpeg"];
+const LOCAL_IMAGES = ["/Bild1.jpeg", "/Bild2.jpeg", "/Bild3.jpeg", "/Bild4.jpeg", "/Bild5.jpeg", "/Bild6.png", "/Bild7.png"];
 
 const ITEMS: GalleryItem[] = [
   { id: 1,  label: "Klassischer Sidepart",     category: "haarschnitte", heightClass: "h-64", imageUrl: LOCAL_IMAGES[0] },
@@ -33,8 +33,8 @@ const ITEMS: GalleryItem[] = [
   { id: 8,  label: "Designer Beard",           category: "baerte",       heightClass: "h-44", imageUrl: LOCAL_IMAGES[2] },
   { id: 9,  label: "Shop-Atmosphäre",          category: "atmosphaere",  heightClass: "h-56", imageUrl: LOCAL_IMAGES[3] },
   { id: 10, label: "Barber bei der Arbeit",    category: "atmosphaere",  heightClass: "h-48", imageUrl: LOCAL_IMAGES[4] },
-  { id: 11, label: "Warte- & Loungebereich",   category: "atmosphaere",  heightClass: "h-64", imageUrl: LOCAL_IMAGES[0] },
-  { id: 12, label: "Werkzeuge & Details",      category: "atmosphaere",  heightClass: "h-44", imageUrl: LOCAL_IMAGES[1] },
+  { id: 11, label: "Warte- & Loungebereich",   category: "atmosphaere",  heightClass: "h-64", imageUrl: LOCAL_IMAGES[5] },
+  { id: 12, label: "Werkzeuge & Details",      category: "atmosphaere",  heightClass: "h-44", imageUrl: LOCAL_IMAGES[6] },
 ];
 
 const FILTERS: { value: FilterCategory; label: string }[] = [

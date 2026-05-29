@@ -14,7 +14,8 @@ const placeholders: GalleryPlaceholder[] = [
   { label: "Bart",         heightClass: "h-52", imageUrl: "/Bild3.jpeg" },
   { label: "Skin Fade",    heightClass: "h-40", imageUrl: "/Bild4.jpeg" },
   { label: "Kombi",        heightClass: "h-60", imageUrl: "/Bild5.jpeg" },
-  { label: "Atmosphäre",   heightClass: "h-48", imageUrl: "/Bild1.jpeg" },
+  { label: "Design",       heightClass: "h-48", imageUrl: "/Bild6.png"  },
+  { label: "Atmosphäre",   heightClass: "h-56", imageUrl: "/Bild7.png"  },
 ];
 
 export function GalleryTeaser() {
